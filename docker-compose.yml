@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: spring-boot-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: todo
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  frontend:
+    image: node:26.7.0
+    container_name: spring-boot-frontend
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./vue:/app
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  mysql-data:
