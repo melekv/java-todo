@@ -5,6 +5,8 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NULL,
     PRIMARY KEY (id),
     CONSTRAINT unq_email UNIQUE (email)
 );
