@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,18 +33,14 @@ public class User {
 
     @NotBlank
     @Email
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true, updatable = false)
     private String email;
 
-    @NotBlank
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Column(name = "active", nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Todo> todos;
+    private List<Todo> todos = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -52,6 +49,19 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    protected User() {
+    }
+
+    public User(
+        String firstName,
+        String lastName,
+        String email
+    ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
     public UUID getId() {
         return id;
@@ -83,14 +93,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public boolean isActive() {
