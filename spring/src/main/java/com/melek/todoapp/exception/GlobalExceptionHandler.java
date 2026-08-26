@@ -35,6 +35,15 @@ public class GlobalExceptionHandler {
             .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryAlreadyExists(
+        CategoryAlreadyExistsException exception
+    ) {
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(
         Exception exception

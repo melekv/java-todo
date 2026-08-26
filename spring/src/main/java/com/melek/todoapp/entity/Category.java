@@ -36,6 +36,13 @@ public class Category {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     public UUID getId() {
         return id;
     }

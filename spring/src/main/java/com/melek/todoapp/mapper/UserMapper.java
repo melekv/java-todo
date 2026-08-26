@@ -6,7 +6,8 @@ import com.melek.todoapp.entity.User;
 public class UserMapper {
 
     public static UserDto toDto(User user) {
-        return new UserDto(user.getId(),
+        return new UserDto(
+            user.getId(),
             user.getFirstName(),
             user.getLastName(),
             user.getEmail(),
