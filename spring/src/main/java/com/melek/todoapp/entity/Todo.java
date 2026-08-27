@@ -31,7 +31,7 @@ public class Todo {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private Status status;
+    private Status status = Status.TODO;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,6 +50,21 @@ public class Todo {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    public Todo() {
+    }
+
+    public Todo(
+        String title,
+        String description,
+        User user,
+        Category category
+    ) {
+        this.title = title;
+        this.description = description;
+        this.user = user;
+        this.category = category;
+    }
 
     public UUID getId() {
         return id;
