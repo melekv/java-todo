@@ -26,6 +26,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User get(UUID id) {
+        return userRepository.findById(id)
+            .orElseThrow(UserNotFoundException::new);
+    }
+
     public User create(CreateUserRequest createUserRequest) {
         if (userRepository.existsByEmail(createUserRequest.email())) {
             throw new UserAlreadyExistsException();

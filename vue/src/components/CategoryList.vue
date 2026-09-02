@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { RouterLink } from 'vue-router';
 
 const list = ref([]);
 

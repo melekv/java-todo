@@ -1,44 +1,79 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
-const title = ref('');
-const description = ref('');
+const props = defineProps({
+  user: {
+    type: Object,
+    default: null,
+  }
+});
+
+const firstName = ref(props.user?.firstName ?? '');
+const lastName = ref(props.user?.lastName ?? '');
+const email = ref(props.user?.email ?? '');
+const active = ref(props.user?.active ?? false);
+
+const emit = defineEmits(['save']);
+
+const submit = () => {
+  if (firstName.value === '') {
+    toast.error('Please enter first name');
+    return;
+  }
+
+  if (lastName.value === '') {
+    toast.error('Please enter last name');
+    return;
+  }
+
+  if (!props.user && email.value === '') {
+    toast.error('Please enter email');
+    return;
+  }
+
+  const data = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    ...(props.user
+        ? { id: props.user.id, active: active.value }
+        : { email: email.value }),
+  };
+
+  emit('save', data);
+};
 
 </script>
 
 <template>
-  <form class="add-todo">
+  <form class="form" @submit.prevent="submit">
     <div class="group">
-      <label class="label" for="title">Title:</label>
-      <input class="input" id="title" type="text" v-model="title" />
+      <label class="label" for="first-name">First name:</label>
+      <input class="input" id="first-name" type="text" v-model="firstName" />
     </div>
 
     <div class="group">
-      <label class="label" for="description">Description:</label>
-      <input class="input" id="description" type="text" v-model="description" />
+      <label class="label" for="last-name">Last name:</label>
+      <input class="input" id="last-name" type="text" v-model="lastName" />
     </div>
 
     <div class="group">
-      <label class="label" for="category">Category:</label>
-      <select class="add-todo__select" id="category">
-        <option>
-          Select...
-        </option>
-        <option>
-          Travel
-        </option>
-        <option>
-          Work
-        </option>
-      </select>
+      <label class="label" for="email">Email:</label>
+      <input class="input max-width" id="email" type="email" :disabled="props.user" v-model="email" />
     </div>
 
-    <button class="button" type="button">Submit</button>
+    <div class="group row">
+      <label class="label" for="active">Active:</label>
+      <input class="input" id="active" type="checkbox" v-model="active" />
+    </div>
+
+    <button class="button" type="submit">Submit</button>
   </form>
 </template>
 
 <style scoped>
-.add-todo {
+.form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -51,19 +86,26 @@ const description = ref('');
   gap: 6px;
 }
 
+.row {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
 .label {
   font-size: 14px;
   font-weight: 600;
 }
 
-.input,
-.add-todo__select {
-  width: 100%;
+.input {
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   background: #333;
   color: #fff;
+}
+
+.max-width {
+  width: 100%;
 }
 
 .button {

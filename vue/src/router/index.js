@@ -5,6 +5,7 @@ import CategoriesView from '../views/CategoriesView.vue';
 import TodosView from '../views/TodosView.vue';
 import UsersView from '../views/UsersView.vue';
 import AddUserView from '../views/AddUserView.vue';
+import EditUserView from '../views/EditUserView.vue';
 
 const routes = [
     {
@@ -26,6 +27,10 @@ const routes = [
     {
         path: '/users/add',
         component: AddUserView,
+    },
+    {
+        path: '/users/:id/edit',
+        component: EditUserView,
     },
     {
         path: '/users',

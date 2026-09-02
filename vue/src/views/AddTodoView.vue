@@ -4,14 +4,14 @@ import TodoForm from "../components/UserForm.vue";
 
 <template>
   <div>
-    <h2 class="add-todo__header">Add new todo</h2>
+    <h2 class="header">Add new todo</h2>
 
     <TodoForm />
   </div>
 </template>
 
 <style scoped>
-.add-todo__header {
+.header {
   font-size: 18px;
 }
 </style>
