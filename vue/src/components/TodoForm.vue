@@ -24,6 +24,7 @@ const statuses = [
 ];
 
 const emit = defineEmits(['save']);
+const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   categories.value = await getCategories();
@@ -50,7 +51,7 @@ const submit = () => {
 
 const getCategories = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/categories');
+    const response = await fetch(`${API_URL}/categories`);
 
     if (!response.ok) {
       throw Error('Failed to fetch categories!');
@@ -64,7 +65,7 @@ const getCategories = async () => {
 
 const getUsers = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/users');
+    const response = await fetch(`${API_URL}/users`);
 
     if (!response.ok) {
       throw Error('Failed to fetch users!');

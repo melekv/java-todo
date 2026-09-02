@@ -4,10 +4,11 @@ import { toast } from 'vue3-toastify';
 import TodoForm from '../components/TodoForm.vue';
 
 const router = useRouter();
+const API_URL = import.meta.env.VITE_API_URL;
 
 const create = async (data) => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/todos', {
+    const response = await fetch(`${API_URL}/todos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

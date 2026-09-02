@@ -2,10 +2,11 @@
 import { ref, onMounted } from 'vue';
 
 const list = ref([]);
+const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/categories', {
+    const response = await fetch(`${API_URL}/categories`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +22,7 @@ onMounted(async () => {
 
 const remove = async (id) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/categories/${id}`, {
+    const response = await fetch(`${API_URL}/categories/${id}`, {
       method: 'DELETE',
     });
 

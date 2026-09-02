@@ -3,10 +3,11 @@ import { RouterLink } from 'vue-router';
 import { onMounted, ref } from 'vue';
 
 const list = ref([]);
+const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/todos');
+    const response = await fetch(`${API_URL}/todos`);
 
     list.value = await response.json();
   } catch (error) {
@@ -16,7 +17,7 @@ onMounted(async () => {
 
 const remove = async (id) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/todos/${id}`, {
+    const response = await fetch(`${API_URL}/todos/${id}`, {
       method: 'DELETE',
     });
 

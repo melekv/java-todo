@@ -5,6 +5,7 @@ import 'vue3-toastify/dist/index.css';
 import CategoryForm from "../components/CategoryForm.vue";
 
 const router = useRouter();
+const API_URL = import.meta.env.VITE_API_URL;
 
 const save = async name => {
   if (!name.trim()) {
@@ -13,7 +14,7 @@ const save = async name => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/v1/categories', {
+    const response = await fetch(`${API_URL}/categories`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

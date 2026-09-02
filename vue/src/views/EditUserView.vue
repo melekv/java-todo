@@ -7,12 +7,13 @@ import UserForm from "../components/UserForm.vue";
 
 const route = useRoute();
 const router = useRouter();
+const API_URL = import.meta.env.VITE_API_URL;
 
 const user = ref(null);
 
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/users/${route.params.id}`);
+    const response = await fetch(`${API_URL}/users/${route.params.id}`);
 
     if (!response.ok) {
       throw new Error('Error fetching user!');
@@ -34,7 +35,7 @@ onMounted(async () => {
 
 const update = async (data) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/users/${data.id}`, {
+    const response = await fetch(`${API_URL}/users/${data.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

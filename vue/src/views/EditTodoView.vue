@@ -9,10 +9,11 @@ const route = useRoute();
 const router = useRouter();
 
 const todo = ref(null);
+const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/todos/${route.params.id}`);
+    const response = await fetch(`${API_URL}/todos/${route.params.id}`);
 
     if (!response.ok) {
       throw new Error('Error fetching user!');
@@ -35,7 +36,7 @@ onMounted(async () => {
 
 const update = async (data) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/todos/${data.id}`, {
+    const response = await fetch(`${API_URL}/todos/${data.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
