@@ -1,15 +1,13 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { onMounted, ref } from 'vue';
+import { getTodos, deleteTodo } from '../services/api.js';
 
 const list = ref([]);
-const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${API_URL}/todos`);
-
-    list.value = await response.json();
+    list.value = await getTodos();
   } catch (error) {
     console.error(error);
   }
@@ -17,13 +15,7 @@ onMounted(async () => {
 
 const remove = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/todos/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
+    await deleteTodo(id);
 
     const index = list.value.findIndex(todo => todo.id === id);
 

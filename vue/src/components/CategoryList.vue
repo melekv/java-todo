@@ -1,20 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { deleteCategory, getCategories } from '../services/api.js';
 
 const list = ref([]);
 const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${API_URL}/categories`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    });
-
-    list.value = await response.json();
+    list.value = await getCategories();
   } catch (error) {
     console.error(error);
   }
@@ -22,13 +15,7 @@ onMounted(async () => {
 
 const remove = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/categories/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
+    await deleteCategory(id);
 
     const index = list.value.findIndex(category => category.id === id);
 

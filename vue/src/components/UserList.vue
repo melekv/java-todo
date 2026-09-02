@@ -1,15 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
+import { getUsers, deleteUser } from '../services/api.js';
 
 const list = ref([]);
-const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${API_URL}/users`);
-
-    list.value = await response.json();
+    list.value = await getUsers();
   } catch (error) {
     console.error(error);
   }
@@ -17,13 +15,7 @@ onMounted(async () => {
 
 const remove = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/users/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
+    await deleteUser(id);
 
     const index = list.value.findIndex(user => user.id === id);
 

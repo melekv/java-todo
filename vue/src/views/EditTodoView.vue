@@ -4,22 +4,16 @@ import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import TodoForm from '../components/TodoForm.vue';
+import { getTodo, updateTodo } from '../services/api.js';
 
 const route = useRoute();
 const router = useRouter();
 
 const todo = ref(null);
-const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${API_URL}/todos/${route.params.id}`);
-
-    if (!response.ok) {
-      throw new Error('Error fetching user!');
-    }
-
-    const data = await response.json();
+    const data = await getTodo(route.params.id);
 
     todo.value = {
       id: data.id,
@@ -36,23 +30,7 @@ onMounted(async () => {
 
 const update = async (data) => {
   try {
-    const response = await fetch(`${API_URL}/todos/${data.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        title: data.title,
-        description: data.description,
-        status: data.status,
-        categoryId: data.categoryId,
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Error updating todo!');
-    }
+    await updateTodo(data);
 
     toast.success('Todo changed!');
 

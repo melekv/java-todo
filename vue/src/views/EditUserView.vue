@@ -3,23 +3,17 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-import UserForm from "../components/UserForm.vue";
+import UserForm from '../components/UserForm.vue';
+import { getUser, updateUser } from '../services/api.js';
 
 const route = useRoute();
 const router = useRouter();
-const API_URL = import.meta.env.VITE_API_URL;
 
 const user = ref(null);
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${API_URL}/users/${route.params.id}`);
-
-    if (!response.ok) {
-      throw new Error('Error fetching user!');
-    }
-
-    const data = await response.json();
+    const data = await getUser(route.params.id);
 
     user.value = {
       id: data.id,
@@ -35,22 +29,7 @@ onMounted(async () => {
 
 const update = async (data) => {
   try {
-    const response = await fetch(`${API_URL}/users/${data.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        active: data.active,
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Error updating user!');
-    }
+    await updateUser(data);
 
     toast.success('User changed!');
 
@@ -59,7 +38,6 @@ const update = async (data) => {
     console.error(error);
   }
 };
-
 </script>
 
 <template>

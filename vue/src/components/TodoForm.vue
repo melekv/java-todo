@@ -2,6 +2,7 @@
 import { ref, defineProps, defineEmits, onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { getUsers, getCategories } from '../services/api.js';
 
 const props = defineProps({
   todo: {
@@ -24,7 +25,6 @@ const statuses = [
 ];
 
 const emit = defineEmits(['save']);
-const API_URL = import.meta.env.VITE_API_URL;
 
 onMounted(async () => {
   categories.value = await getCategories();
@@ -47,34 +47,6 @@ const submit = () => {
   };
 
   emit('save', data);
-};
-
-const getCategories = async () => {
-  try {
-    const response = await fetch(`${API_URL}/categories`);
-
-    if (!response.ok) {
-      throw Error('Failed to fetch categories!');
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const getUsers = async () => {
-  try {
-    const response = await fetch(`${API_URL}/users`);
-
-    if (!response.ok) {
-      throw Error('Failed to fetch users!');
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
 };
 
 </script>
