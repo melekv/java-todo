@@ -4,16 +4,16 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 const props = defineProps({
-  user: {
+  todo: {
     type: Object,
     default: null,
   }
 });
 
-const firstName = ref(props.user?.firstName ?? '');
-const lastName = ref(props.user?.lastName ?? '');
-const email = ref(props.user?.email ?? '');
-const active = ref(props.user?.active ?? false);
+const firstName = ref(props.todo?.firstName ?? '');
+const lastName = ref(props.todo?.lastName ?? '');
+const email = ref(props.todo?.email ?? '');
+const active = ref(props.todo?.active ?? false);
 
 const emit = defineEmits(['save']);
 
@@ -28,7 +28,7 @@ const submit = () => {
     return;
   }
 
-  if (!props.user && email.value === '') {
+  if (!props.todo && email.value === '') {
     toast.error('Please enter email');
     return;
   }
@@ -36,8 +36,8 @@ const submit = () => {
   const data = {
     firstName: firstName.value,
     lastName: lastName.value,
-    ...(props.user
-        ? { id: props.user.id, active: active.value }
+    ...(props.todo
+        ? { id: props.todo.id, active: active.value }
         : { email: email.value }),
   };
 
@@ -60,7 +60,7 @@ const submit = () => {
 
     <div class="group">
       <label class="label" for="email">Email:</label>
-      <input class="input max-width" id="email" type="email" :disabled="props.user" v-model="email" />
+      <input class="input max-width" id="email" type="email" :disabled="props.todo" v-model="email" />
     </div>
 
     <div class="group row">

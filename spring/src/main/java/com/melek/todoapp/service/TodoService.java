@@ -37,6 +37,11 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
+    public Todo get(UUID id) {
+        return todoRepository.findById(id)
+            .orElseThrow(TodoNotFoundException::new);
+    }
+
     public Todo create(CreateTodoRequest createTodoRequest) {
         User user = userRepository.findById(createTodoRequest.userId())
             .orElseThrow(UserNotFoundException::new);

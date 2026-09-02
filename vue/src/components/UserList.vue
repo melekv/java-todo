@@ -24,7 +24,7 @@ const remove = async (id) => {
       throw new Error(`HTTP error: ${response.status}`);
     }
 
-    const index = list.value.findIndex(category => category.id === id);
+    const index = list.value.findIndex(user => user.id === id);
 
     if (index !== -1) {
       list.value.splice(index, 1);

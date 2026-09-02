@@ -6,8 +6,13 @@ import TodosView from '../views/TodosView.vue';
 import UsersView from '../views/UsersView.vue';
 import AddUserView from '../views/AddUserView.vue';
 import EditUserView from '../views/EditUserView.vue';
+import EditTodoView from '../views/EditTodoView.vue';
 
 const routes = [
+    {
+        path: '/',
+        redirect: '/todos',
+    },
     {
         path: '/todos',
         component: TodosView,
@@ -15,6 +20,10 @@ const routes = [
     {
         path: '/todos/add',
         component: AddTodoView,
+    },
+    {
+        path: '/todos/:id/edit',
+        component: EditTodoView,
     },
     {
         path: '/categories',

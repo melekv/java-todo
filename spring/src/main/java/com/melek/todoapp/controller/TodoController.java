@@ -36,6 +36,15 @@ public class TodoController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TodoDto> get(@PathVariable UUID id) {
+        Todo todo = todoService.get(id);
+
+        TodoDto response = TodoMapper.toDto(todo);
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<TodoDto> create(
         @Valid @RequestBody CreateTodoRequest request
