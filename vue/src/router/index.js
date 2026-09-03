@@ -7,11 +7,12 @@ import UsersView from '../views/UsersView.vue';
 import AddUserView from '../views/AddUserView.vue';
 import EditUserView from '../views/EditUserView.vue';
 import EditTodoView from '../views/EditTodoView.vue';
+import DashboardView from '../views/DashboardView.vue';
 
 const routes = [
     {
         path: '/',
-        redirect: '/todos',
+        component: DashboardView
     },
     {
         path: '/todos',

@@ -1,43 +1,36 @@
 <script setup>
 import { onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
-import { useUsers } from '../composables/useUsers.js';
+import { useUserStore } from '../stores/userStore.js';
 
-const {
-  users,
-  loading,
-  error,
-  removingId,
-  loadUsers,
-  removeUser
-} = useUsers();
+const userStore = useUserStore();
 
-onMounted(loadUsers);
+onMounted(() => userStore.loadUsers());
 </script>
 
 <template>
-  <div v-if="loading">
+  <div v-if="userStore.loading">
     Loading...
   </div>
 
-  <div v-else-if="error">
-    {{ error }}
+  <div v-else-if="userStore.error">
+    {{ userStore.error }}
   </div>
 
-  <div v-else-if="users.length === 0">
+  <div v-else-if="userStore.total === 0">
     No users found.
   </div>
 
   <template v-else>
-    <div v-for="user in users" :key="user.id" class="container">
+    <div v-for="user in userStore.users" :key="user.id" class="container">
       <div>
         <div>{{ user.firstName }} {{ user.lastName }}</div>
         <div class="bold">{{ user.email }}</div>
       </div>
       <div class="modifiers">
         <RouterLink :to="`/users/${user.id}/edit`">Edit</RouterLink>
-        <button type="button" @click="removeUser(user.id)">
-          {{ removingId === user.id ? 'Deleting...' : 'Delete' }}
+        <button type="button" @click="userStore.deleteUser(user.id)">
+          {{ userStore.removingId === user.id ? 'Deleting...' : 'Delete' }}
         </button>
       </div>
     </div>

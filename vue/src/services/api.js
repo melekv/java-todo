@@ -37,6 +37,8 @@ export const createUser = async (data) => {
     if (!response.ok) {
         throw new Error('Error creating user!');
     }
+
+    return response.json();
 }
 
 export const updateUser = async (data) => {
@@ -56,6 +58,8 @@ export const updateUser = async (data) => {
     if (!response.ok) {
         throw new Error('Error creating todo!');
     }
+
+    return response.json();
 }
 
 export const deleteUser = async (id) => {
@@ -143,6 +147,8 @@ export const createTodo = async (data) => {
     if (!response.ok) {
         throw new Error('Error creating todo!');
     }
+
+    return response.json();
 }
 
 export const updateTodo = async (data) => {
@@ -163,6 +169,8 @@ export const updateTodo = async (data) => {
     if (!response.ok) {
         throw new Error('Error creating todo!');
     }
+
+    return response.json();
 }
 
 export const deleteTodo = async (id) => {

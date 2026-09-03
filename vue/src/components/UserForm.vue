@@ -4,16 +4,20 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 const props = defineProps({
-  todo: {
+  user: {
     type: Object,
     default: null,
+  },
+  saving: {
+    type: Boolean,
+    default: false,
   }
 });
 
-const firstName = ref(props.todo?.firstName ?? '');
-const lastName = ref(props.todo?.lastName ?? '');
-const email = ref(props.todo?.email ?? '');
-const active = ref(props.todo?.active ?? false);
+const firstName = ref(props.user?.firstName ?? '');
+const lastName = ref(props.user?.lastName ?? '');
+const email = ref(props.user?.email ?? '');
+const active = ref(props.user?.active ?? false);
 
 const emit = defineEmits(['save']);
 
@@ -28,7 +32,7 @@ const submit = () => {
     return;
   }
 
-  if (!props.todo && email.value === '') {
+  if (!props.user && email.value === '') {
     toast.error('Please enter email');
     return;
   }
@@ -36,8 +40,8 @@ const submit = () => {
   const data = {
     firstName: firstName.value,
     lastName: lastName.value,
-    ...(props.todo
-        ? { id: props.todo.id, active: active.value }
+    ...(props.user
+        ? { id: props.user.id, active: active.value }
         : { email: email.value }),
   };
 
@@ -60,15 +64,21 @@ const submit = () => {
 
     <div class="group">
       <label class="label" for="email">Email:</label>
-      <input class="input max-width" id="email" type="email" :disabled="props.todo" v-model="email" />
+      <input class="input max-width" id="email" type="email" :disabled="props.user" v-model="email" />
     </div>
 
-    <div class="group row">
+    <div v-if="props.user" class="group row">
       <label class="label" for="active">Active:</label>
       <input class="input" id="active" type="checkbox" v-model="active" />
     </div>
 
-    <button class="button" type="submit">Submit</button>
+    <button
+        class="button"
+        type="submit"
+        :disabled="props.saving"
+    >
+      {{ props.saving ? 'Saving...' : 'Submit' }}
+    </button>
   </form>
 </template>
 

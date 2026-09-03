@@ -3,9 +3,10 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import TodoForm from '../components/TodoForm.vue';
-import { createTodo } from '../services/api.js';
+import { useTodoStore } from '../stores/todoStore.js';
 
 const router = useRouter();
+const todoStore = useTodoStore();
 
 const saving = ref(false);
 
@@ -13,7 +14,7 @@ const create = async (data) => {
   saving.value = true;
 
   try {
-    await createTodo(data);
+    await todoStore.createTodo(data);
 
     toast.success('Todo created!');
     router.push('/todos');

@@ -3,9 +3,10 @@ import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import CategoryForm from '../components/CategoryForm.vue';
-import { createCategory } from '../services/api.js';
+import { useCategoryStore } from '../stores/categoryStore.js';
 
 const router = useRouter();
+const categoryStore = useCategoryStore();
 
 const save = async name => {
   if (!name.trim()) {
@@ -14,7 +15,7 @@ const save = async name => {
   }
 
   try {
-    await createCategory(name);
+    await categoryStore.createCategory(name);
 
     toast.success('Category added!');
 

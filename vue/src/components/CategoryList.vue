@@ -1,38 +1,31 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useCategories } from '../composables/useCategories.js';
+import { useCategoryStore } from '../stores/categoryStore.js';
 
-const {
-  categories,
-  loading,
-  error,
-  removingId,
-  loadCategories,
-  removeCategory
-} = useCategories();
+const categoryStore = useCategoryStore();
 
-onMounted(loadCategories);
+onMounted(() => categoryStore.loadCategories());
 
 </script>
 
 <template>
-  <div v-if="loading">
+  <div v-if="categoryStore.loading">
     Loading...
   </div>
 
-  <div v-else-if="error">
-    {{ error }}
+  <div v-else-if="categoryStore.error">
+    {{ categoryStore.error }}
   </div>
 
-  <div v-else-if="categories.length === 0">
+  <div v-else-if="categoryStore.total === 0">
     No categories found.
   </div>
   <template v-else>
-    <div v-for="category in categories" :key="category.id" class="container">
+    <div v-for="category in categoryStore.categories" :key="category.id" class="container">
       <div>{{ category.name }}</div>
       <div class="modifiers">
-        <button type="button" @click="removeCategory(category.id)">
-          {{ removingId === category.id ? 'Deleting...' : 'Delete' }}
+        <button type="button" @click="categoryStore.deleteCategory(category.id)">
+          {{ categoryStore.removingId === category.id ? 'Deleting...' : 'Delete' }}
         </button>
       </div>
     </div>

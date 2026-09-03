@@ -2,27 +2,15 @@
 import { ref, defineProps, defineEmits, onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { useCategoryStore } from '../stores/categoryStore.js';
+import { useUserStore } from '../stores/userStore.js';
 
-import { useCategories } from '../composables/useCategories.js';
-import { useUsers } from '../composables/useUsers.js';
-
-const {
-  categories,
-  loading: categoriesLoading,
-  error: categoriesError,
-  loadCategories
-} = useCategories();
-
-const {
-  users,
-  loading: usersLoading,
-  error: usersError,
-  loadUsers
-} = useUsers();
+const categoryStore = useCategoryStore();
+const userStore = useUserStore();
 
 onMounted(() => {
-  loadCategories();
-  loadUsers();
+  userStore.loadUsers();
+  categoryStore.loadCategories();
 });
 
 const props = defineProps({
@@ -88,17 +76,17 @@ const submit = () => {
           class="input"
           id="user"
           v-model="userId"
-          :disabled="props.todo || usersLoading"
+          :disabled="props.todo || userStore.loading"
       >
         <option value="" disabled>
-          {{ usersLoading ? 'Loading users...' : 'Select...' }}
+          {{ userStore.loading ? 'Loading users...' : 'Select...' }}
         </option>
-        <option v-for="user in users" :key="user.id" :value="user.id">
+        <option v-for="user in userStore.users" :key="user.id" :value="user.id">
           {{ user.email }}
         </option>
       </select>
-      <div v-if="usersError">
-        {{ usersError }}
+      <div v-if="userStore.error">
+        {{ userStore.error }}
       </div>
     </div>
 
@@ -109,17 +97,17 @@ const submit = () => {
           class="input"
           id="category"
           v-model="categoryId"
-          :disabled="categoriesLoading"
+          :disabled="categoryStore.loading"
       >
         <option value="" disabled>
-          {{ categoriesLoading ? 'Loading categories...' : 'Select...' }}
+          {{ categoryStore.loading ? 'Loading categories...' : 'Select...' }}
         </option>
-        <option v-for="category in categories" :key="category.id" :value="category.id">
+        <option v-for="category in categoryStore.categories" :key="category.id" :value="category.id">
           {{ category.name }}
         </option>
       </select>
-      <div v-if="categoriesError">
-        {{ categoriesError }}
+      <div v-if="categoryStore.error">
+        {{ categoryStore.error }}
       </div>
     </div>
 

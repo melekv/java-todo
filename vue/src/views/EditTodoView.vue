@@ -4,45 +4,36 @@ import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import TodoForm from '../components/TodoForm.vue';
-import { getTodo, updateTodo } from '../services/api.js';
+import { useTodoStore } from '../stores/todoStore.js';
 
 const route = useRoute();
 const router = useRouter();
 
+const todoStore = useTodoStore();
+
 const todo = ref(null);
-const loading = ref(false);
-const error = ref(null);
-const saving = ref(false);
 
 onMounted(async () => {
-  loading.value = true;
-  error.value = null;
+  const id = route.params.id;
 
   try {
-    const data = await getTodo(route.params.id);
-
-    todo.value = data;
+    todo.value = todoStore.total === 0
+        ? await todoStore.loadTodo(id)
+        : todoStore.getTodoById(id);
   } catch (error) {
     console.error(error);
-    error.value = 'Failed to load todo.';
-  } finally {
-    loading.value = false;
   }
 });
 
 const update = async (data) => {
-  saving.value = true;
-
   try {
-    await updateTodo(data);
+    await todoStore.updateTodo(data);
 
     toast.success('Todo changed!');
     router.push('/todos');
   } catch (error) {
     console.error(error);
     toast.error('Failed to update todo');
-  } finally {
-    saving.value = false;
   }
 };
 
@@ -52,18 +43,18 @@ const update = async (data) => {
   <div>
     <h2 class="header">Edit todo</h2>
 
-    <div v-if="loading">
+    <div v-if="todoStore.loading">
       Loading todo...
     </div>
 
-    <div v-else-if="error">
-      {{ error }}
+    <div v-else-if="todoStore.error">
+      {{ todoStore.error }}
     </div>
 
     <TodoForm
         v-else-if="todo"
         :todo="todo"
-        :saving="saving"
+        :saving="todoStore.saving"
         @save="update"
     />
   </div>
