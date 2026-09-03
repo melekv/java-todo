@@ -10,33 +10,39 @@ const route = useRoute();
 const router = useRouter();
 
 const todo = ref(null);
+const loading = ref(false);
+const error = ref(null);
+const saving = ref(false);
 
 onMounted(async () => {
+  loading.value = true;
+  error.value = null;
+
   try {
     const data = await getTodo(route.params.id);
 
-    todo.value = {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      status: data.status,
-      userId: data.userId,
-      categoryId: data.categoryId,
-    };
+    todo.value = data;
   } catch (error) {
     console.error(error);
+    error.value = 'Failed to load todo.';
+  } finally {
+    loading.value = false;
   }
 });
 
 const update = async (data) => {
+  saving.value = true;
+
   try {
     await updateTodo(data);
 
     toast.success('Todo changed!');
-
     router.push('/todos');
   } catch (error) {
     console.error(error);
+    toast.error('Failed to update todo');
+  } finally {
+    saving.value = false;
   }
 };
 
@@ -46,7 +52,20 @@ const update = async (data) => {
   <div>
     <h2 class="header">Edit todo</h2>
 
-    <TodoForm v-if="todo" :todo="todo" @save="update" />
+    <div v-if="loading">
+      Loading todo...
+    </div>
+
+    <div v-else-if="error">
+      {{ error }}
+    </div>
+
+    <TodoForm
+        v-else-if="todo"
+        :todo="todo"
+        :saving="saving"
+        @save="update"
+    />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-const getUsers = async () => {
+export const getUsers = async () => {
     const response = await fetch(`${API_URL}/users`);
 
     if (!response.ok) {
@@ -10,7 +10,7 @@ const getUsers = async () => {
     return response.json();
 }
 
-const getUser = async (id) => {
+export const getUser = async (id) => {
     const response = await fetch(`${API_URL}/users/${id}`);
 
     if (!response.ok) {
@@ -20,7 +20,7 @@ const getUser = async (id) => {
     return response.json();
 };
 
-const createUser = async (data) => {
+export const createUser = async (data) => {
     const response = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
@@ -39,7 +39,7 @@ const createUser = async (data) => {
     }
 }
 
-const updateUser = async (data) => {
+export const updateUser = async (data) => {
     const response = await fetch(`${API_URL}/users/${data.id}`, {
         method: 'PUT',
         headers: {
@@ -58,7 +58,7 @@ const updateUser = async (data) => {
     }
 }
 
-const deleteUser = async (id) => {
+export const deleteUser = async (id) => {
     const response = await fetch(`${API_URL}/users/${id}`, {
         method: 'DELETE',
     });
@@ -68,7 +68,7 @@ const deleteUser = async (id) => {
     }
 }
 
-const getCategories = async () => {
+export const getCategories = async () => {
     const response = await fetch(`${API_URL}/categories`);
 
     if (!response.ok) {
@@ -78,7 +78,7 @@ const getCategories = async () => {
     return response.json();
 }
 
-const createCategory = async (name) => {
+export const createCategory = async (name) => {
     const response = await fetch(`${API_URL}/categories`, {
         method: 'POST',
         headers: {
@@ -95,7 +95,7 @@ const createCategory = async (name) => {
     }
 }
 
-const deleteCategory = async (id) => {
+export const deleteCategory = async (id) => {
     const response = await fetch(`${API_URL}/categories/${id}`, {
         method: 'DELETE',
     });
@@ -105,7 +105,7 @@ const deleteCategory = async (id) => {
     }
 }
 
-const getTodos = async () => {
+export const getTodos = async () => {
     const response = await fetch(`${API_URL}/todos`);
 
     if (!response.ok) {
@@ -115,7 +115,7 @@ const getTodos = async () => {
     return response.json();
 };
 
-const getTodo = async (id) => {
+export const getTodo = async (id) => {
     const response = await fetch(`${API_URL}/todos/${id}`);
 
     if (!response.ok) {
@@ -125,7 +125,7 @@ const getTodo = async (id) => {
     return response.json();
 };
 
-const createTodo = async (data) => {
+export const createTodo = async (data) => {
     const response = await fetch(`${API_URL}/todos`, {
         method: 'POST',
         headers: {
@@ -145,7 +145,7 @@ const createTodo = async (data) => {
     }
 }
 
-const updateTodo = async (data) => {
+export const updateTodo = async (data) => {
     const response = await fetch(`${API_URL}/todos/${data.id}`, {
         method: 'PUT',
         headers: {
@@ -165,7 +165,7 @@ const updateTodo = async (data) => {
     }
 }
 
-const deleteTodo = async (id) => {
+export const deleteTodo = async (id) => {
     const response = await fetch(`${API_URL}/todos/${id}`, {
         method: 'DELETE',
     });
@@ -174,6 +174,3 @@ const deleteTodo = async (id) => {
         throw new Error(`HTTP error: ${response.status}`);
     }
 }
-
-export { getUsers, getUser, createUser, updateUser, deleteUser, getCategories, createCategory, deleteCategory,
-    getTodos, getTodo, createTodo, updateTodo, deleteTodo };

@@ -1,46 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
-import { getUsers, deleteUser } from '../services/api.js';
+import { useUsers } from '../composables/useUsers.js';
 
-const list = ref([]);
+const {
+  users,
+  loading,
+  error,
+  removingId,
+  loadUsers,
+  removeUser
+} = useUsers();
 
-const loading = ref(false);
-const error = ref(null);
-
-const removingId = ref(null);
-
-onMounted(async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    list.value = await getUsers();
-  } catch (error) {
-    console.error(error);
-    error.value = 'Failed to load users';
-  } finally {
-    loading.value = false;
-  }
-});
-
-const remove = async (id) => {
-  removingId.value = id;
-
-  try {
-    await deleteUser(id);
-
-    const index = list.value.findIndex(user => user.id === id);
-
-    if (index !== -1) {
-      list.value.splice(index, 1);
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    removingId.value = null;
-  }
-};
+onMounted(loadUsers);
 </script>
 
 <template>
@@ -52,19 +24,19 @@ const remove = async (id) => {
     {{ error }}
   </div>
 
-  <div v-else-if="list.length === 0">
+  <div v-else-if="users.length === 0">
     No users found.
   </div>
 
   <template v-else>
-    <div v-for="user in list" :key="user.id" class="container">
+    <div v-for="user in users" :key="user.id" class="container">
       <div>
         <div>{{ user.firstName }} {{ user.lastName }}</div>
         <div class="bold">{{ user.email }}</div>
       </div>
       <div class="modifiers">
         <RouterLink :to="`/users/${user.id}/edit`">Edit</RouterLink>
-        <button type="button" @click="remove(user.id)">
+        <button type="button" @click="removeUser(user.id)">
           {{ removingId === user.id ? 'Deleting...' : 'Delete' }}
         </button>
       </div>

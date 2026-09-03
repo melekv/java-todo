@@ -1,45 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { deleteCategory, getCategories } from '../services/api.js';
+import { onMounted } from 'vue';
+import { useCategories } from '../composables/useCategories.js';
 
-const list = ref([]);
+const {
+  categories,
+  loading,
+  error,
+  removingId,
+  loadCategories,
+  removeCategory
+} = useCategories();
 
-const loading = ref(false);
-const error = ref(null);
-
-const removingId = ref(null);
-
-onMounted(async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    list.value = await getCategories();
-  } catch (error) {
-    console.error(error);
-    error.value = 'Failed to load categories';
-  } finally {
-    loading.value = false;
-  }
-});
-
-const remove = async (id) => {
-  removingId.value = id;
-
-  try {
-    await deleteCategory(id);
-
-    const index = list.value.findIndex(category => category.id === id);
-
-    if (index !== -1) {
-      list.value.splice(index, 1);
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    removingId.value = null;
-  }
-};
+onMounted(loadCategories);
 
 </script>
 
@@ -52,14 +24,16 @@ const remove = async (id) => {
     {{ error }}
   </div>
 
-  <div v-else-if="list.length === 0">
+  <div v-else-if="categories.length === 0">
     No categories found.
   </div>
   <template v-else>
-    <div v-for="category in list" :key="category.id" class="container">
+    <div v-for="category in categories" :key="category.id" class="container">
       <div>{{ category.name }}</div>
       <div class="modifiers">
-        <button type="button" @click="remove(category.id)">Delete</button>
+        <button type="button" @click="removeCategory(category.id)">
+          {{ removingId === category.id ? 'Deleting...' : 'Delete' }}
+        </button>
       </div>
     </div>
   </template>

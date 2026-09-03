@@ -1,16 +1,9 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
-
-const props = defineProps({
-  category: {
-    type: Object,
-    default: null
-  }
-});
+import { ref, defineEmits } from 'vue';
 
 defineEmits(['save']);
 
-const name = ref(props.category?.name ?? '');
+const name = ref('');
 
 </script>
 

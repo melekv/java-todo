@@ -1,46 +1,11 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import { onMounted, ref } from 'vue';
-import { getTodos, deleteTodo } from '../services/api.js';
+import { onMounted } from 'vue';
+import { useTodos } from '../composables/useTodos.js';
 
-const list = ref([]);
+const { todos, loading, error, removingId, loadTodos, removeTodo } = useTodos();
 
-const loading = ref(false);
-const error = ref(null);
-
-const removingId = ref(null);
-
-onMounted(async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    list.value = await getTodos();
-  } catch (error) {
-    console.error(error);
-    error.value = 'Failed to load todos';
-  } finally {
-    loading.value = false;
-  }
-});
-
-const remove = async (id) => {
-  removingId.value = id;
-
-  try {
-    await deleteTodo(id);
-
-    const index = list.value.findIndex(todo => todo.id === id);
-
-    if (index !== -1) {
-      list.value.splice(index, 1);
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    removingId.value = null;
-  }
-};
+onMounted(loadTodos);
 </script>
 
 <template>
@@ -52,18 +17,20 @@ const remove = async (id) => {
     {{ error }}
   </div>
 
-  <div v-else-if="list.length === 0">
+  <div v-else-if="todos.length === 0">
     No todos found.
   </div>
 
   <template v-else>
-    <div v-for="todo in list" :key="todo.id" class="container">
+    <div v-for="todo in todos" :key="todo.id" class="container">
       <div>
         <div>{{ todo.title }}</div>
       </div>
       <div class="modifiers">
         <RouterLink :to="`/todos/${todo.id}/edit`">Edit</RouterLink>
-        <button type="button" @click="remove(todo.id)">Delete</button>
+        <button type="button" @click="removeTodo(todo.id)">
+          {{ removingId === todo.id ? 'Deleting...' : 'Delete' }}
+        </button>
       </div>
     </div>
   </template>
