@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useTodoStore } from '../stores/todoStore.js';
 import { useUserStore } from '../stores/userStore.js';
 import { useCategoryStore } from '../stores/categoryStore.js';
+import Card from '../components/Card.vue';
 
 const todoStore = useTodoStore();
 const userStore = useUserStore();
@@ -20,56 +21,9 @@ onMounted(() => {
     <h2>Dashboard</h2>
 
     <div class="container">
-      <article>
-        <div v-if="todoStore.loading">
-          Loading...
-        </div>
-
-        <div v-else-if="todoStore.error">
-          {{ todoStore.error }}
-        </div>
-
-        <div v-else>
-          <div class="card card-dashboard">
-            <div class="label">Todos</div>
-            <div class="value">{{ todoStore.total }}</div>
-          </div>
-        </div>
-      </article>
-
-      <article>
-        <div v-if="userStore.loading">
-          Loading...
-        </div>
-
-        <div v-else-if="userStore.error">
-          {{ userStore.error }}
-        </div>
-
-        <div v-else>
-          <div class="card card-dashboard">
-            <div class="label">Users</div>
-            <div class="value">{{ userStore.total }}</div>
-          </div>
-        </div>
-      </article>
-
-      <article>
-        <div v-if="categoryStore.loading">
-          Loading...
-        </div>
-
-        <div v-else-if="categoryStore.error">
-          {{ categoryStore.error }}
-        </div>
-
-        <div v-else>
-          <div class="card card-dashboard">
-            <div class="label">Categories</div>
-            <div class="value">{{ categoryStore.total }}</div>
-          </div>
-        </div>
-      </article>
+      <Card :item="todoStore" label="Todos" />
+      <Card :item="userStore" label="Users" />
+      <Card :item="categoryStore" label="Categories" />
     </div>
   </div>
 </template>
@@ -79,10 +33,5 @@ onMounted(() => {
   display: flex;
   justify-content: space-around;
   gap: 20px;
-}
-
-.card-dashboard {
-  flex-direction: column;
-  gap: 10px;
 }
 </style>
