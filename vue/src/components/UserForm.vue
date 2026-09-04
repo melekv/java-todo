@@ -64,7 +64,7 @@ const submit = () => {
 
     <div class="group">
       <label class="label" for="email">Email:</label>
-      <input class="input max-width" id="email" type="email" :disabled="props.user" v-model="email" />
+      <input class="input" id="email" type="email" :disabled="props.user" v-model="email" />
     </div>
 
     <div v-if="props.user" class="group row">
@@ -73,7 +73,7 @@ const submit = () => {
     </div>
 
     <button
-        class="button"
+        class="btn btn-primary"
         type="submit"
         :disabled="props.saving"
     >
@@ -83,47 +83,4 @@ const submit = () => {
 </template>
 
 <style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0 24px;
-}
-
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.row {
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-}
-
-.max-width {
-  width: 100%;
-}
-
-.button {
-  padding: 10px 16px;
-  border: 0;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-  cursor: pointer;
-}
 </style>

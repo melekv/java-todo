@@ -22,14 +22,14 @@ onMounted(() => userStore.loadUsers());
   </div>
 
   <template v-else>
-    <div v-for="user in userStore.users" :key="user.id" class="container">
-      <div>
-        <div>{{ user.firstName }} {{ user.lastName }}</div>
-        <div class="bold">{{ user.email }}</div>
+    <div v-for="user in userStore.users" :key="user.id" class="card" :class="{ 'inactive': !user.active }">
+      <div class="info">
+        <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
+        <div class="email">{{ user.email }}</div>
       </div>
-      <div class="modifiers">
-        <RouterLink :to="`/users/${user.id}/edit`">Edit</RouterLink>
-        <button type="button" @click="userStore.deleteUser(user.id)">
+      <div class="actions">
+        <RouterLink class="btn btn-secondary" :to="`/users/${user.id}/edit`">Edit</RouterLink>
+        <button class="btn btn-danger" type="button" @click="userStore.deleteUser(user.id)">
           {{ userStore.removingId === user.id ? 'Deleting...' : 'Delete' }}
         </button>
       </div>
@@ -38,18 +38,15 @@ onMounted(() => userStore.loadUsers());
 </template>
 
 <style scoped>
-.container {
-  margin: 10px;
-  display: flex;
-  justify-content: space-between;
+.inactive {
+  background-color: #ff5a5a;
 }
 
-.modifiers {
-  display: flex;
-  gap: 10px;
+.name {
+  font-weight: 700;
 }
 
-.bold {
-  font-weight: bold;
+.email {
+  font-size: 14px;
 }
 </style>

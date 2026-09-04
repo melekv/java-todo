@@ -4,14 +4,18 @@ import { RouterLink } from "vue-router";
 
 <template>
   <main class="app">
-    <header class="app__header">
-      <h1 class="app__title">TODO APP</h1>
-      <p class="app__subtitle">Manage your tasks</p>
+    <header class="header">
+      <h1>
+        <RouterLink class="remove-decor" to="/">
+          TODO APP
+        </RouterLink>
+      </h1>
+      <p>Manage your tasks</p>
 
       <nav class="nav">
-        <RouterLink class="nav-link" to="/todos">Todos</RouterLink>
-        <RouterLink class="nav-link" to="/categories">Categories</RouterLink>
-        <RouterLink class="nav-link" to="/users">Users</RouterLink>
+        <RouterLink to="/todos">Todos</RouterLink>
+        <RouterLink to="/categories">Categories</RouterLink>
+        <RouterLink to="/users">Users</RouterLink>
       </nav>
     </header>
 
@@ -21,39 +25,53 @@ import { RouterLink } from "vue-router";
 
 <style scoped>
 .app {
-  width: min(500px, 100%);
+  width: 100%;
+  max-width: 1000px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 32px 24px;
-  background: #ffffff;
+  padding: 40px;
+  background: #fff;
 }
 
 .nav {
-  margin-top: 10px;
   display: flex;
-  gap: 16px;
+  gap: 24px;
   justify-content: center;
 }
 
-.nav-link {
+.nav a {
   text-decoration: none;
-  color: #1f2937;
+  color: #374151;
+  font-weight: 500;
 }
 
-.app__header {
-  margin-bottom: 32px;
-  text-align: center;
+.nav a:hover {
+  color: #111827;
 }
 
-.app__title {
-  margin: 0;
-  font-size: 24px;
+.nav a.router-link-active {
+  color: #2563eb;
   font-weight: 700;
 }
 
-.app__subtitle {
-  margin: 6px 0 0;
-  font-size: 14px;
-  color: #6b7280
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+}
+
+.header h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header p {
+  margin: 0 0 20px;
+  color: #6b7280;
 }
 </style>

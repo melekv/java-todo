@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import {createUser, deleteUser, getUser, getUsers, updateUser} from '../services/api.js';
 
+const CACHE_TTL = 60 * 1000;
+
 export const useUserStore = defineStore('users', {
     state: () => ({
         users: [],
@@ -8,6 +10,7 @@ export const useUserStore = defineStore('users', {
         error: null,
         removingId: null,
         saving: false,
+        lastLoadedAt: null,
     }),
 
     getters: {
@@ -20,11 +23,16 @@ export const useUserStore = defineStore('users', {
 
     actions: {
         async loadUsers() {
+            if (this.lastLoadedAt && Date.now() - this.lastLoadedAt < CACHE_TTL) {
+                return;
+            }
+
             this.loading = true;
             this.error = null;
 
             try {
                 this.users = await getUsers();
+                this.lastLoadedAt = Date.now();
             } catch (error) {
                 console.error(error);
                 this.error = 'Failed to load users';

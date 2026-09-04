@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { getTodos, getTodo, createTodo, updateTodo, deleteTodo } from '../services/api.js';
 
+const CACHE_TTL = 60 * 1000;
+
 export const useTodoStore = defineStore('todos', {
     state: () => ({
         todos: [],
@@ -8,6 +10,7 @@ export const useTodoStore = defineStore('todos', {
         error: null,
         removingId: null,
         saving: false,
+        lastLoadedAt: null,
     }),
 
     getters: {
@@ -20,11 +23,16 @@ export const useTodoStore = defineStore('todos', {
 
     actions: {
         async loadTodos() {
+            if (this.lastLoadedAt && Date.now() - this.lastLoadedAt < CACHE_TTL) {
+                return;
+            }
+
             this.loading = true;
             this.error = null;
 
             try {
                 this.todos = await getTodos();
+                this.lastLoadedAt = Date.now();
             } catch (error) {
                 console.error(error);
                 this.error = 'Failed to load todos';

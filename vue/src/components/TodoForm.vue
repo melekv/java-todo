@@ -73,7 +73,7 @@ const submit = () => {
       <label class="label" for="user">User:</label>
 
       <select
-          class="input"
+          class="select"
           id="user"
           v-model="userId"
           :disabled="props.todo || userStore.loading"
@@ -94,7 +94,7 @@ const submit = () => {
       <label class="label" for="category">Category:</label>
 
       <select
-          class="input"
+          class="select"
           id="category"
           v-model="categoryId"
           :disabled="categoryStore.loading"
@@ -113,7 +113,7 @@ const submit = () => {
 
     <div v-if="props.todo" class="group">
       <label class="label" for="status">Status:</label>
-      <select class="input" id="status" v-model="status">
+      <select class="select" id="status" v-model="status">
         <option value="" disabled>
           Select...
         </option>
@@ -124,7 +124,7 @@ const submit = () => {
     </div>
 
     <button
-        class="button"
+        class="btn btn-primary"
         type="submit"
         :disabled="props.saving"
     >
@@ -134,47 +134,5 @@ const submit = () => {
 </template>
 
 <style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0 24px;
-}
 
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.row {
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-}
-
-.max-width {
-  width: 100%;
-}
-
-.button {
-  padding: 10px 16px;
-  border: 0;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-  cursor: pointer;
-}
 </style>

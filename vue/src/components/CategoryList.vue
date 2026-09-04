@@ -21,10 +21,10 @@ onMounted(() => categoryStore.loadCategories());
     No categories found.
   </div>
   <template v-else>
-    <div v-for="category in categoryStore.categories" :key="category.id" class="container">
-      <div>{{ category.name }}</div>
-      <div class="modifiers">
-        <button type="button" @click="categoryStore.deleteCategory(category.id)">
+    <div v-for="category in categoryStore.categories" :key="category.id" class="card">
+      <div class="name">{{ category.name }}</div>
+      <div class="actions">
+        <button class="btn btn-danger" type="button" @click="categoryStore.deleteCategory(category.id)">
           {{ categoryStore.removingId === category.id ? 'Deleting...' : 'Delete' }}
         </button>
       </div>
@@ -33,14 +33,8 @@ onMounted(() => categoryStore.loadCategories());
 </template>
 
 <style scoped>
-.container {
-  margin: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.modifiers {
-  display: flex;
-  gap: 10px;
+.name {
+  font-weight: 600;
+  font-size: 16px;
 }
 </style>

@@ -97,6 +97,8 @@ export const createCategory = async (name) => {
     if (!response.ok) {
         throw new Error('Error creating category!');
     }
+
+    return response.json();
 }
 
 export const deleteCategory = async (id) => {

@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia';
 import { getCategories, createCategory, deleteCategory } from '../services/api.js';
 
+const CACHE_TTL = 60 * 1000;
+
 export const useCategoryStore = defineStore('categories', {
     state: () => ({
         categories: [],
         loading: false,
         error: null,
         removingId: null,
+        lastLoadedAt: null,
     }),
 
     getters: {
@@ -15,11 +18,16 @@ export const useCategoryStore = defineStore('categories', {
 
     actions: {
         async loadCategories() {
+            if (this.lastLoadedAt && Date.now() - this.lastLoadedAt < CACHE_TTL) {
+                return;
+            }
+
             this.loading = true;
             this.error = null;
 
             try {
                 this.categories = await getCategories();
+                this.lastLoadedAt = Date.now();
             } catch (error) {
                 console.error(error);
                 this.error = 'Failed to load categories';

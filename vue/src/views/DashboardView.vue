@@ -19,7 +19,7 @@ onMounted(() => {
   <div>
     <h2>Dashboard</h2>
 
-    <div class="container">
+    <div class="card">
       <article>
         <div v-if="todoStore.loading">
           Loading...
@@ -75,7 +75,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.container {
+.card {
   display: flex;
   gap: 20px;
 }
