@@ -45,7 +45,8 @@ public class UserServiceIntegrationTest {
         var request = new CreateUserRequest(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         var result = userService.create(request);
@@ -66,7 +67,8 @@ public class UserServiceIntegrationTest {
         var request = new CreateUserRequest(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         var result = userService.create(request);

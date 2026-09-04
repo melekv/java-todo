@@ -56,7 +56,8 @@ public class TodoServiceTest {
         var user = new User(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         var category = new Category(
@@ -127,7 +128,8 @@ public class TodoServiceTest {
         var user = new User(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         when(userRepository.findById(userId))
@@ -157,7 +159,8 @@ public class TodoServiceTest {
         var user = new User(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         var oldCategory = new Category(

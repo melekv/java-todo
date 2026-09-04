@@ -102,7 +102,8 @@ public class TodoServiceIntegrationTest {
         var createUserRequest = new CreateUserRequest(
             "John",
             "Doe",
-            email
+            email,
+            "password"
         );
 
         return userService.create(createUserRequest);

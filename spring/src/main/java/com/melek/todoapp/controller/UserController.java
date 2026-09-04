@@ -44,17 +44,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<UserDto> create(
-        @Valid @RequestBody CreateUserRequest request
-    ) {
-        User user = userService.create(request);
-
-        UserDto response = UserMapper.toDto(user);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> update(
         @PathVariable UUID id,

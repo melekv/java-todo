@@ -6,6 +6,7 @@ import com.melek.todoapp.dto.UpdateUserRequest;
 import com.melek.todoapp.entity.User;
 import com.melek.todoapp.exception.UserNotFoundException;
 import com.melek.todoapp.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,14 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(
-        UserRepository userRepository
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> list() {
@@ -39,7 +43,8 @@ public class UserService {
         User user = new User(
             createUserRequest.firstName(),
             createUserRequest.lastName(),
-            createUserRequest.email()
+            createUserRequest.email(),
+            passwordEncoder.encode(createUserRequest.password())
         );
 
         return userRepository.save(user);

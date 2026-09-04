@@ -34,7 +34,8 @@ public class UserServiceTest {
         var request = new CreateUserRequest(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         when(userRepository.existsByEmail(request.email()))
@@ -43,7 +44,8 @@ public class UserServiceTest {
         var user = new User(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         when(userRepository.save(any(User.class)))
@@ -63,7 +65,8 @@ public class UserServiceTest {
         var request = new CreateUserRequest(
             "John",
             "Doe",
-            "john.doe@example.com"
+            "john.doe@example.com",
+            "password"
         );
 
         when(userRepository.existsByEmail(request.email()))
@@ -92,7 +95,8 @@ public class UserServiceTest {
         var user = new User(
             "John",
             "Doe",
-            "john.due@example.com"
+            "john.due@example.com",
+            "password"
         );
 
         when(userRepository.findById(id))
