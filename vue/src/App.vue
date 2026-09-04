@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-  <main class="app">
+  <div class="app">
     <header class="header">
       <h1>
         <RouterLink class="remove-decor" to="/">
@@ -11,16 +11,23 @@ import { RouterLink } from "vue-router";
         </RouterLink>
       </h1>
       <p>Manage your tasks</p>
-
-      <nav class="nav">
-        <RouterLink to="/todos">Todos</RouterLink>
-        <RouterLink to="/categories">Categories</RouterLink>
-        <RouterLink to="/users">Users</RouterLink>
-      </nav>
     </header>
 
-    <RouterView />
-  </main>
+    <div class="content">
+      <aside>
+        <nav class="nav">
+          <RouterLink to="/">Dashboard</RouterLink>
+          <RouterLink to="/todos">Todos</RouterLink>
+          <RouterLink to="/categories">Categories</RouterLink>
+          <RouterLink to="/users">Users</RouterLink>
+        </nav>
+      </aside>
+
+      <main>
+        <RouterView />
+      </main>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -30,27 +37,42 @@ import { RouterLink } from "vue-router";
   min-height: 100vh;
   margin: 0 auto;
   padding: 40px;
-  background: #fff;
+}
+
+.content {
+  display: flex;
+}
+
+aside {
+  padding: 20px;
+  width: 240px;
+  flex-shrink: 0;
+}
+
+main {
+  flex-grow: 1;
 }
 
 .nav {
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+  gap: 18px;
   justify-content: center;
 }
 
 .nav a {
   text-decoration: none;
-  color: #374151;
+  color: var(--color-text);
   font-weight: 500;
+  font-size: 18px;
 }
 
 .nav a:hover {
-  color: #111827;
+  color: var(--color-text-muted);
 }
 
 .nav a.router-link-active {
-  color: #2563eb;
+  color: var(--color-text-active-link);
   font-weight: 700;
 }
 
@@ -72,6 +94,6 @@ import { RouterLink } from "vue-router";
 
 .header p {
   margin: 0 0 20px;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 </style>

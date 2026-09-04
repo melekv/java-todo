@@ -1,3 +1,26 @@
+:root {
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-surface-hover: #374151;
+
+    --color-text: #f9fafb;
+    --color-text-muted: #9ca3af;
+    --color-text-active-link: #9ca3af;
+
+    --color-border: #374151;
+
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+
+    --color-danger: #3f4444;
+    --color-danger-hover: #dc2626;
+
+    --color-input: #1f2937;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -9,8 +32,8 @@ html, body, #app {
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    color: #1f2937;
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
 button,
@@ -30,9 +53,9 @@ button {
     align-items: center;
     padding: 18px 20px;
     margin-bottom: 12px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
-    background-color: #fff;
+    background-color: var(--color-surface);
 }
 
 .info {
@@ -93,10 +116,10 @@ button {
 .input, .select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background: #fff;
-    color: #1f2937;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
 }
 
 .input:focus, .select:focus {

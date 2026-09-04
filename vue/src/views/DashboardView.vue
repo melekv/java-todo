@@ -19,7 +19,7 @@ onMounted(() => {
   <div>
     <h2>Dashboard</h2>
 
-    <div class="card">
+    <div class="container">
       <article>
         <div v-if="todoStore.loading">
           Loading...
@@ -30,7 +30,7 @@ onMounted(() => {
         </div>
 
         <div v-else>
-          <div class="card">
+          <div class="card card-dashboard">
             <div class="label">Todos</div>
             <div class="value">{{ todoStore.total }}</div>
           </div>
@@ -47,7 +47,7 @@ onMounted(() => {
         </div>
 
         <div v-else>
-          <div class="card">
+          <div class="card card-dashboard">
             <div class="label">Users</div>
             <div class="value">{{ userStore.total }}</div>
           </div>
@@ -64,7 +64,7 @@ onMounted(() => {
         </div>
 
         <div v-else>
-          <div class="card">
+          <div class="card card-dashboard">
             <div class="label">Categories</div>
             <div class="value">{{ categoryStore.total }}</div>
           </div>
@@ -75,8 +75,14 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.card {
+.container {
   display: flex;
+  justify-content: space-around;
   gap: 20px;
+}
+
+.card-dashboard {
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
