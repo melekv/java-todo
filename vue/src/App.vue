@@ -1,5 +1,8 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink } from 'vue-router';
+import { useUserStore } from './stores/userStore';
+
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -20,6 +23,11 @@ import { RouterLink } from "vue-router";
           <RouterLink to="/todos">Todos</RouterLink>
           <RouterLink to="/categories">Categories</RouterLink>
           <RouterLink to="/users">Users</RouterLink>
+
+          <button class="link" v-if="userStore.isAuthenticated" @click="userStore.logout">
+            Logout
+          </button>
+          <RouterLink v-else to="/auth/login">Login</RouterLink>
         </nav>
       </aside>
 
@@ -95,5 +103,15 @@ main {
 .header p {
   margin: 0 0 20px;
   color: var(--color-text-muted);
+}
+
+.link {
+  border: none;
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 18px;
 }
 </style>

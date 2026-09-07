@@ -1,17 +1,43 @@
 const API_URL = import.meta.env.VITE_API_URL;
+const AUTH_URL = import.meta.env.VITE_AUTH_URL;
+
+export const login = async (data) => {
+    const response = await fetch(`${AUTH_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to login!');
+    }
+
+    return response.json();
+};
 
 export const getUsers = async () => {
-    const response = await fetch(`${API_URL}/users`);
+    const response = await fetch(`${API_URL}/users`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch users!');
     }
 
     return response.json();
-}
+};
 
 export const getUser = async (id) => {
-    const response = await fetch(`${API_URL}/users/${id}`);
+    const response = await fetch(`${API_URL}/users/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch user!');
@@ -21,16 +47,18 @@ export const getUser = async (id) => {
 };
 
 export const createUser = async (data) => {
-    const response = await fetch(`${API_URL}/users`, {
+    const response = await fetch(`${AUTH_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
+            password: data.password,
         })
     });
 
@@ -39,7 +67,7 @@ export const createUser = async (data) => {
     }
 
     return response.json();
-}
+};
 
 export const updateUser = async (data) => {
     const response = await fetch(`${API_URL}/users/${data.id}`, {
@@ -47,6 +75,7 @@ export const updateUser = async (data) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
             firstName: data.firstName,
@@ -60,27 +89,34 @@ export const updateUser = async (data) => {
     }
 
     return response.json();
-}
+};
 
 export const deleteUser = async (id) => {
     const response = await fetch(`${API_URL}/users/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
     });
 
     if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
     }
-}
+};
 
 export const getCategories = async () => {
-    const response = await fetch(`${API_URL}/categories`);
+    const response = await fetch(`${API_URL}/categories`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch categories!');
     }
 
     return response.json();
-}
+};
 
 export const createCategory = async (name) => {
     const response = await fetch(`${API_URL}/categories`, {
@@ -88,6 +124,7 @@ export const createCategory = async (name) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
             name: name,
@@ -99,20 +136,27 @@ export const createCategory = async (name) => {
     }
 
     return response.json();
-}
+};
 
 export const deleteCategory = async (id) => {
     const response = await fetch(`${API_URL}/categories/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
     });
 
     if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
     }
-}
+};
 
 export const getTodos = async () => {
-    const response = await fetch(`${API_URL}/todos`);
+    const response = await fetch(`${API_URL}/todos`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch todos!');
@@ -122,7 +166,11 @@ export const getTodos = async () => {
 };
 
 export const getTodo = async (id) => {
-    const response = await fetch(`${API_URL}/todos/${id}`);
+    const response = await fetch(`${API_URL}/todos/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch todo!');
@@ -137,6 +185,7 @@ export const createTodo = async (data) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
             title: data.title,
@@ -151,7 +200,7 @@ export const createTodo = async (data) => {
     }
 
     return response.json();
-}
+};
 
 export const updateTodo = async (data) => {
     const response = await fetch(`${API_URL}/todos/${data.id}`, {
@@ -159,6 +208,7 @@ export const updateTodo = async (data) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
             title: data.title,
@@ -173,14 +223,17 @@ export const updateTodo = async (data) => {
     }
 
     return response.json();
-}
+};
 
 export const deleteTodo = async (id) => {
     const response = await fetch(`${API_URL}/todos/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
     });
 
     if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
     }
-}
+};

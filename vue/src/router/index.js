@@ -8,11 +8,21 @@ import AddUserView from '../views/AddUserView.vue';
 import EditUserView from '../views/EditUserView.vue';
 import EditTodoView from '../views/EditTodoView.vue';
 import DashboardView from '../views/DashboardView.vue';
+import RegisterView from '../views/RegisterView.vue';
+import LoginView from '../views/LoginView.vue';
 
 const routes = [
     {
         path: '/',
         component: DashboardView
+    },
+    {
+        path: '/auth/register',
+        component: RegisterView
+    },
+    {
+        path: '/auth/login',
+        component: LoginView
     },
     {
         path: '/todos',

@@ -19,7 +19,7 @@ const props = defineProps({
 
     <div v-else>
       <div class="card card-dashboard">
-        <div class="label">Todos</div>
+        <div class="label">{{ props.label }}</div>
         <div class="value">{{ props.item.total }}</div>
       </div>
     </div>

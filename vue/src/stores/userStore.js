@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import {createUser, deleteUser, getUser, getUsers, updateUser} from '../services/api.js';
+import { login, createUser, deleteUser, getUser, getUsers, updateUser } from '../services/api.js';
 
 const CACHE_TTL = 60 * 1000;
 
@@ -11,6 +11,7 @@ export const useUserStore = defineStore('users', {
         removingId: null,
         saving: false,
         lastLoadedAt: null,
+        token: localStorage.getItem('token') || '',
     }),
 
     getters: {
@@ -18,10 +19,30 @@ export const useUserStore = defineStore('users', {
 
         getUserById: (state) => {
             return (id) => state.users.find(user => user.id === id)
-        }
+        },
+
+        isAuthenticated: (state) => !!state.token
     },
 
     actions: {
+        async login(data) {
+            try {
+                const response = await login(data);
+
+                this.token = response.token;
+
+                localStorage.setItem('token', this.token);
+            } catch (error) {
+                console.error(error);
+                this.error = 'Failed to login!';
+            }
+        },
+
+        logout() {
+            this.token = '';
+            localStorage.removeItem('token');
+        },
+
         async loadUsers() {
             if (this.lastLoadedAt && Date.now() - this.lastLoadedAt < CACHE_TTL) {
                 return;
