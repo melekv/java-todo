@@ -23,5 +23,20 @@ services:
       - ./vue:/app
     command: npm run dev -- --host 0.0.0.0
 
+  backend:
+    image: todoapp:local
+    container_name: spring-boot-backend
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/todo
+      DB_USERNAME: todo
+      DB_PASSWORD: todo
+      JWT_SECRET: your-very-long-secret-key-that-is-at-least-32-bytes-long
+      JWT_EXPIRATION: 3600000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
 volumes:
   mysql-data:
