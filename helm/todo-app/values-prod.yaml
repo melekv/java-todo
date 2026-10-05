@@ -1,0 +1,41 @@
+backend:
+  image:
+    repository: ghcr.io/melekv/todo-backend
+    tag: 1.0.0
+
+  replicas: 2
+
+  database:
+    url: jdbc:mysql://todo-mysql:3306/todo
+    username: todo
+
+  jwtExpiration: "3600000"
+
+secrets:
+  jwtSecret: your-very-long-secret-key-that-is-at-least-32-bytes-long
+  dbPassword: todo
+
+frontend:
+  image:
+    repository: ghcr.io/melekv/todo-frontend
+    tag: 1.0.0
+  replicas: 2
+
+mysql:
+  enabled: false
+  image:
+    repository: mysql
+    tag: "8.4"
+
+  database: todo
+  username: todo
+  rootPassword: root
+  storage: 1Gi
+
+ingress:
+  enabled: true
+  className: traefik
+  host: todo.example.com
+
+imagePullSecrets:
+  - name: ghcr0secret
